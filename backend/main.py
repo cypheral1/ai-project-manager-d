@@ -5,12 +5,13 @@ from typing import Optional
 from nlp_processor import NLPProcessor
 from java_gateway import JavaGateway
 from session_manager import SessionManager
+from config import config
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:4200"],
+    allow_origins=config.ALLOWED_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -2,6 +2,7 @@ import redis
 import json
 from typing import List, Dict, Optional
 from datetime import timedelta
+from config import config
 
 class SessionManager:
     """
@@ -9,15 +10,15 @@ class SessionManager:
     Stores conversation history to enable context-aware responses.
     """
     
-    def __init__(self, host='localhost', port=6379, db=0):
-        """Initialize Redis connection."""
+    def __init__(self, host=None, port=None, db=None):
+        """Initialize Redis connection using config defaults."""
         self.redis_client = redis.Redis(
-            host=host,
-            port=port,
-            db=db,
+            host=host or config.REDIS_HOST,
+            port=port or config.REDIS_PORT,
+            db=db or config.REDIS_DB,
             decode_responses=True
         )
-        self.session_ttl = timedelta(hours=1)  # Sessions expire after 1 hour of inactivity
+        self.session_ttl = timedelta(hours=config.REDIS_SESSION_TTL_HOURS)
         
     def _get_session_key(self, session_id: str) -> str:
         """Generate Redis key for a session."""

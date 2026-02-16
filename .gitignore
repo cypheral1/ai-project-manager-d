@@ -64,3 +64,11 @@ status_output.json
 memory.txt
 HONEST_STATUS.md
 PROGRESS_REPORT.md
+
+SSH key gen
+SSH key gen.pub
+*.pem
+*.key
+id_rsa
+id_rsa.pub
+

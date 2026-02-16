@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ChatService {
+  // Backend API URL - Change this if backend is on different host/port
+  // For production: change to your deployed backend URL
   private apiUrl = 'http://127.0.0.1:8000/chat';
 
   constructor(private http: HttpClient) { }

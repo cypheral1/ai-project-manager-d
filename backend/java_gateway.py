@@ -1,5 +1,6 @@
 import requests
 from db_manager import DatabaseManager
+from config import config
 
 class JavaGateway:
     """
@@ -7,8 +8,8 @@ class JavaGateway:
     Now using SQLite database for persistence.
     """
     def __init__(self, backend_url=None):
-        self.backend_url = backend_url
-        self.db = DatabaseManager(db_path="projects.db")
+        self.backend_url = backend_url or config.JAVA_BACKEND_URL
+        self.db = DatabaseManager(db_path=config.DATABASE_PATH)
 
     def get_project_status(self, project_name):
         """Get project status from database."""
