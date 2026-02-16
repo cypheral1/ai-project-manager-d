@@ -1,0 +1,26 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <h2>AI Project Assistant</h2>
+  </div>
+
+  <div class="chat-messages">
+    <div *ngFor="let msg of messages" class="message" [ngClass]="{'user-msg': msg.isUser, 'ai-msg': !msg.isUser}">
+      <div class="message-bubble">
+        {{ msg.text }}
+      </div>
+    </div>
+    <div *ngIf="isLoading" class="loading-indicator">
+      AI is thinking...
+    </div>
+  </div>
+
+  <div class="chat-input-area">
+    <input 
+      [(ngModel)]="userInput" 
+      (keyup.enter)="sendMessage()"
+      type="text" 
+      placeholder="Ask about project status or create tasks..."
+    >
+    <button (click)="sendMessage()" [disabled]="isLoading || !userInput.trim()">Send</button>
+  </div>
+</div>
