@@ -3,12 +3,12 @@ import re
 def parse_command(user_input):
     text = user_input.lower()
 
-    if "status" in text or "progress" in text:
+    if "status" in text or "progress" in text or "how is" in text or "doing" in text:
         intent = "GET_STATUS"
-    elif "create" in text:
+    elif "create" in text or "new project" in text:
         intent = "CREATE_PROJECT"
     else:
-        return {"error": "unknown_intent"}
+        intent = "UNKNOWN"
 
     project_match = re.search(r'project(?:\s+named)?\s+([a-zA-Z0-9]+)', user_input, re.IGNORECASE)
     project_name = f"Project {project_match.group(1)}" if project_match else None

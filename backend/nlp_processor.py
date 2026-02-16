@@ -105,22 +105,19 @@ class NLPProcessor:
         except Exception as e:
             print(f"Error parsing input: {e}")
             # Fallback: Use Local Regex Parser if API fails
-            if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e) or "RetryError" in str(e):
-                print("DEBUG: Rate limit hit. Switching to Local Parsing Mode.")
-                from parser import parse_command
-                local_data = parse_command(user_input)
-                
-                # Enrich local data with spaCy too!
-                if self.nlp:
-                    doc = self.nlp(user_input)
-                    local_data["entities"] = {
-                        "people": [ent.text for ent in doc.ents if ent.label_ == "PERSON"],
-                        "dates": [ent.text for ent in doc.ents if ent.label_ == "DATE"],
-                        "orgs": [ent.text for ent in doc.ents if ent.label_ == "ORG"]
-                    }
-                return local_data
+            print("DEBUG: Rate limit hit, using fallback mock data.")
+            from parser import parse_command
+            local_data = parse_command(user_input)
             
-            return {"intent": "UNKNOWN", "error": str(e)}
+            # Enrich local data with spaCy too!
+            if self.nlp:
+                doc = self.nlp(user_input)
+                local_data["entities"] = {
+                    "people": [ent.text for ent in doc.ents if ent.label_ == "PERSON"],
+                    "dates": [ent.text for ent in doc.ents if ent.label_ == "DATE"],
+                    "orgs": [ent.text for ent in doc.ents if ent.label_ == "ORG"]
+                }
+            return local_data
 
     def generate_smart_response(self, data: dict) -> str:
         """
