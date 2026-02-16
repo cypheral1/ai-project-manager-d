@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ai_env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Environment variables (SENSITIVE!)
+.env
+.env.local
+
+# Database files (contain user data)
+*.db
+*.sqlite
+*.sqlite3
+projects.json
+projects.json.backup
+backend/projects.json
+backend/projects.json.backup
+
+# Logs
+*.log
+server.log
+frontend.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node (Frontend)
+node_modules/
+frontend/.angular/
+frontend/dist/
+frontend/.vscode/
+
+# Test outputs
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.bak
+create_output.json
+create_output_debug.json
+status_output.json
+
+# Personal notes
+memory.txt
+HONEST_STATUS.md
+PROGRESS_REPORT.md
