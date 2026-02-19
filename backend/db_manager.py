@@ -1,5 +1,5 @@
 from database import Database
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, Any
 
 class DatabaseManager:
     """
@@ -173,3 +173,56 @@ class DatabaseManager:
             cursor = conn.cursor()
             cursor.execute('SELECT name FROM projects ORDER BY created_at DESC')
             return [row['name'] for row in cursor.fetchall()]
+    
+    def search_projects(self, query: str) -> List[Dict]:
+        """
+        Search projects by partial name match.
+        
+        Args:
+            query: Search string (partial match)
+        
+        Returns:
+            List of matching project summaries
+        """
+        with self.db.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                'SELECT name, status, completion, total_tasks, delayed_tasks '
+                'FROM projects WHERE name LIKE ? ORDER BY created_at DESC',
+                (f'%{query}%',)
+            )
+            return [
+                {
+                    'name': row['name'],
+                    'status': row['status'],
+                    'completion': row['completion'],
+                    'total_tasks': row['total_tasks'],
+                    'delayed_tasks': row['delayed_tasks']
+                }
+                for row in cursor.fetchall()
+            ]
+    
+    def get_all_projects_summary(self) -> List[Dict]:
+        """
+        Get a summary of all projects (for LIST_PROJECTS intent).
+        
+        Returns:
+            List of project summary dicts
+        """
+        with self.db.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                'SELECT name, status, completion, total_tasks, delayed_tasks, '
+                'created_at FROM projects ORDER BY created_at DESC'
+            )
+            return [
+                {
+                    'name': row['name'],
+                    'status': row['status'],
+                    'completion': row['completion'],
+                    'total_tasks': row['total_tasks'],
+                    'delayed_tasks': row['delayed_tasks'],
+                    'created_at': row['created_at']
+                }
+                for row in cursor.fetchall()
+            ]

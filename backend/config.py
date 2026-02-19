@@ -35,6 +35,10 @@ class Config:
     
     # Java Backend (future integration)
     JAVA_BACKEND_URL = os.getenv('JAVA_BACKEND_URL', None)
+    JAVA_API_TIMEOUT = int(os.getenv('JAVA_API_TIMEOUT', '10'))
+    
+    # Limits
+    MAX_TASKS_PER_PROJECT = int(os.getenv('MAX_TASKS_PER_PROJECT', '1000'))
     
     @classmethod
     def validate(cls):

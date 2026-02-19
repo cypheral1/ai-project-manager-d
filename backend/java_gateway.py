@@ -66,5 +66,28 @@ class JavaGateway:
         result = self.db.create_project(project_name, total_tasks, allocations)
         return {"success": True, "message": f"Project {project_name} created with detailed assignments."}
 
+    def list_all_projects(self):
+        """Get summary of all projects."""
+        return self.db.get_all_projects_summary()
+
+    def update_project_status(self, project_name, **kwargs):
+        """Update a project's status/completion/delayed_tasks."""
+        updated = self.db.update_project(project_name, **kwargs)
+        if updated:
+            return {"success": True, "message": f"Project {project_name} updated."}
+        return {"success": False, "message": f"Project {project_name} not found."}
+
+    def delete_project(self, project_name):
+        """Delete a project by name."""
+        deleted = self.db.delete_project(project_name)
+        if deleted:
+            return {"success": True, "message": f"Project {project_name} deleted."}
+        return {"success": False, "message": f"Project {project_name} not found."}
+
+    def generate_java_payload(self, project_name, total_tasks, allocations, action="CREATE"):
+        """Generate structured JSON for Java backend API."""
+        from task_assigner import generate_java_payload
+        return generate_java_payload(project_name, total_tasks, allocations, action)
+
     def health_check(self):
         return {"status": "Java Gateway is active (SQLite Database: ON)"}
